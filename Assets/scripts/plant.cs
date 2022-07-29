@@ -14,9 +14,12 @@ public class plant : MonoBehaviour
         transform.localScale = Vector3.zero;
         gardenBed = GetComponentInParent<GardenBed>();
     }
+  
+
 
     private void OnEnable()
     {
+        Debug.Log(firstTime);
         if(firstTime)
         {           
             gardenBed.PlantsReady.Add(transform);
@@ -35,10 +38,12 @@ public class plant : MonoBehaviour
                     gardenBed.player.seeding = false;
                     gardenBed.SeedsButton.GetComponent<seedsButton>().Seeds = false;
                     gardenBed.check = true;
-                }
-
-               
+                }               
             }
+        }
+        else
+        {
+            firstTime = true;           
         }
        
     }

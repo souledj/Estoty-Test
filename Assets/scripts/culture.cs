@@ -28,7 +28,7 @@ public class culture : MonoBehaviour
             ground.onetime = true;
             ground.Transparent();
             ground.gameObject.SetActive(false);
-
+            
             Fetus.transform.localScale = Vector3.one*10;
             Fetus.transform.parent = null;
             Fetus.SetActive(true);
@@ -38,7 +38,7 @@ public class culture : MonoBehaviour
             if(gardenBed.PlantsReady.Count == 0)
             {
                 gardenBed.Reload();
-            }
+            }          
             gameObject.SetActive(false);
         }
        

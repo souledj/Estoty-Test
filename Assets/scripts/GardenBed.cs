@@ -54,6 +54,7 @@ public class GardenBed : MonoBehaviour
         }
 
     }
+    
 
     public void Gross(int Land, bool plant)
     {
@@ -63,66 +64,26 @@ public class GardenBed : MonoBehaviour
         if (plant)
         {
             i = 1;
-            TargetLand.GetChild(i).GetComponent<plant>().firstTime = true;
-            TargetLand.GetChild(i).gameObject.SetActive(true);
-           
-            /*/bool alreadyExist = PlantsReady.Contains(TargetLand.GetChild(i));
-            if(!alreadyExist)
-            {
-                PlantsReady.Add(TargetLand.GetChild(i));
-               
-            }        
-            TargetLand.GetChild(i).gameObject.SetActive(true);
-            if (PlantsReady.Count == PlantsTotal)
-            {
-                allPlantsIsReady = true;
-                player.seeding = false;
-              
-                SeedsButton.GetComponent<seedsButton>().Seeds = false;
-                check = true;                             
-            }/*/
+            TargetLand.GetChild(i).gameObject.SetActive(true);                   
         }
         else
         {
             i = 2;
-            TargetLand.GetChild(i).GetComponent<plant>().firstTime = true;
-            TargetLand.GetChild(i).gameObject.SetActive(true);
-            TargetLand.GetChild(1).localScale = Vector3.zero;
             TargetLand.GetChild(0).gameObject.SetActive(true);
             TargetLand.GetChild(0).GetComponent<wetGround>().Transparent();
-            TargetLand.GetChild(1).gameObject.SetActive(false);
 
-            /*/bool alreadyExist = PlantsReady.Contains(TargetLand.GetChild(i));
-            if (!alreadyExist)
-            {
-                PlantsReady.Add(TargetLand.GetChild(i));
-            }
             TargetLand.GetChild(1).localScale = Vector3.zero;
-            TargetLand.GetChild(0).gameObject.SetActive(true);
-            TargetLand.GetChild(0).GetComponent<wetGround>().Transparent();
             TargetLand.GetChild(1).gameObject.SetActive(false);
-            if (PlantsReady.Count == PlantsTotal)
-            {               
-               player.Watering(false);
-               GardenBedIsReady = true;
-               check = true;
-            }/*/
-        }
-        //TargetLand.GetChild(i).gameObject.SetActive(true);      
+                     
+            TargetLand.GetChild(i).gameObject.SetActive(true);
+
+        }        
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*/if(allPlantsIsReady & PlantsReady.Count == PlantsTotal)
-        {
-            GardenBedIsReady = true;
-        }
-        else
-        {
-            GardenBedIsReady = false;
-        }/*/
-        
+              
     }
 
     private void OnTriggerEnter(Collider other)

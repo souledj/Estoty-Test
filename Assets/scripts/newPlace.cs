@@ -32,7 +32,8 @@ public class newPlace : MonoBehaviour
       if(open)
         {
             land.localPosition = Vector3.MoveTowards(land.localPosition, new Vector3(land.localPosition.x, -1, land.localPosition.z), Time.deltaTime * 3);
-            if(land.localPosition.y == -1 & nextPlaces.Count>0)
+            land.localScale = Vector3.MoveTowards(land.localScale, new Vector3(2,2,2), Time.deltaTime * 3);
+            if (land.localScale == new Vector3(2, 2, 2) & nextPlaces.Count>0)
             {
                 foreach(GameObject go in nextPlaces)
                 {
@@ -74,22 +75,21 @@ public class newPlace : MonoBehaviour
                     text.text = price.ToString();
                     waitingIco.CoinJump(waitInCicle);
                     waitInCicle = Mathf.Clamp(waitInCicle - 0.03f, 0.03f, maxWaitInCicle);                    
-                } 
-               
-               
-            }
-            else
-            {                
-                open = true;
-                Off();
-                land.gameObject.SetActive(true);
-                
-            }
-
+                }                               
+            }            
             yield return new WaitForSeconds(waitInCicle);           
             if (PlayerPrefs.GetInt("money") == 0)
             {
                 Off();
+            }
+
+            if(price == 0)
+            {
+
+                open = true;
+                land.localScale = Vector3.zero;
+                Off();
+                land.gameObject.SetActive(true);
             }
         }
         
