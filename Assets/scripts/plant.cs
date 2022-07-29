@@ -18,8 +18,7 @@ public class plant : MonoBehaviour
 
 
     private void OnEnable()
-    {
-        Debug.Log(firstTime);
+    {       
         if(firstTime)
         {           
             gardenBed.PlantsReady.Add(transform);

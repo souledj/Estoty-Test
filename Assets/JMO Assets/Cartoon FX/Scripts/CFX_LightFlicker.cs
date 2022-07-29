@@ -3,7 +3,7 @@ using System.Collections;
 
 // Cartoon FX  - (c) 2015 Jean Moreno
 
-// Randomly changes a light's intensity over time.
+// Randomly changes a light's intensity over FeedingTime.
 
 [RequireComponent(typeof(Light))]
 public class CFX_LightFlicker : MonoBehaviour

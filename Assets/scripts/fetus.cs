@@ -9,7 +9,7 @@ public class fetus : MonoBehaviour
     private RectTransform TargetCounter;
     private bool oneTime = true;
     private Rigidbody rb;
-    public culture culture;
+    public Transform parent;
 
 
     // Start is called before the first frame update
@@ -30,7 +30,7 @@ public class fetus : MonoBehaviour
             if (Vector3.Distance(transform.position, target) < 1)
             {
                 PlayerPrefs.SetInt(name, PlayerPrefs.GetInt(name) + 1);
-                transform.parent = culture.transform;
+                transform.parent = parent;
                 transform.localPosition = new Vector3(0, 5, 0);
                 transform.localRotation = Quaternion.identity;
                 oneTime = true;
@@ -45,7 +45,7 @@ public class fetus : MonoBehaviour
     private IEnumerator OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.layer == 8 & oneTime)
-        {           
+        {            
             oneTime = false;
             yield return new WaitForSeconds(0.2f);
             rb.isKinematic = true;

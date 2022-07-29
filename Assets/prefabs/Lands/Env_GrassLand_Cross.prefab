@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Env_GrassLand_Cross
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: aea52d7c9d3762945bf9e116581c765b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aea52d7c9d3762945bf9e116581c765b, type: 3}
 --- !u!1 &6825049243827380116 stripped

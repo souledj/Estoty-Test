@@ -7,6 +7,7 @@ public class countes : MonoBehaviour
     public RectTransform wheat;
     public RectTransform money;
     public RectTransform tomato;
+    public RectTransform milk;
 
 
 
@@ -33,6 +34,10 @@ public class countes : MonoBehaviour
 
             case "tomato":
                 toReturn = tomato;
+                break;
+
+            case "milk":
+                toReturn = milk;
                 break;
 
         }
