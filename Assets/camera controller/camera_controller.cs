@@ -11,8 +11,7 @@ public class camera_controller : MonoBehaviour
 
     void Start()
     {
-        cameraY = camera.transform.position.y;
-        //sceneV.cameractrl = gameObject;
+        cameraY = camera.transform.position.y;       
     }
     
     void Update()

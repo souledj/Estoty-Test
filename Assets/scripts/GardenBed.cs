@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class GardenBed : MonoBehaviour
 {
     public Sprite culture;
@@ -54,7 +55,45 @@ public class GardenBed : MonoBehaviour
         }
 
     }
-    
+
+    private void Start()
+    {
+        int numb = 0;
+        bool go = false;
+        if(allPlantsIsReady)
+        {
+            allPlantsIsReady = false;
+            numb = 1;
+            go = true;
+        }
+        else if(GardenBedIsReady)
+        {
+            numb = 2;
+            go = true;
+        }
+
+        if(go)
+        {
+            for (int i = 0; i < PlantsTotal; i++)
+            {
+                Transform TargetLand = LandsRoot.GetChild(i);
+                if (GardenBedIsReady)
+                {
+                    Transform ground = TargetLand.GetChild(0);
+                    ground.gameObject.SetActive(true);
+                    ground.localScale = Vector3.one*0.5f;
+                }
+               
+                Transform plant = TargetLand.GetChild(numb);
+                plant.gameObject.SetActive(true);
+                plant.localScale = Vector3.one;
+                
+            }
+        }
+       
+    }
+
+
 
     public void Gross(int Land, bool plant)
     {
@@ -101,7 +140,7 @@ public class GardenBed : MonoBehaviour
            
             if (allPlantsIsReady)
             {
-               PlantsReady.Clear();
+               //PlantsReady.Clear();
                seedsButtonComp.Watering = true;
                seedsButtonComp.image.sprite = waterCan;               
             }

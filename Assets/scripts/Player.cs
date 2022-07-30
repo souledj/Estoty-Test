@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using SaveIsEasy;
+
+
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +24,7 @@ public class Player : MonoBehaviour
     public bool scythe;
     public GameObject ScytheObj;
     public bool stop;
+    public Vector3 pos;
 
     private void Awake()
     {
@@ -31,13 +35,15 @@ public class Player : MonoBehaviour
     }
     // Start is called before the first frame update
     void Start()
-    {
-        
+    {       
+        transform.position = pos;
+        FindObjectOfType<camera_controller>().transform.position = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        pos = transform.position;
         animator.transform.localPosition = Vector3.zero;
         if(!stop)
         {

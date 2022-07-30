@@ -315,6 +315,7 @@ GameObject:
   - component: {fileID: 7397881037734055047}
   - component: {fileID: 7397881037734055041}
   - component: {fileID: 7397881037734055046}
+  - component: {fileID: 5127701233646903438}
   m_Layer: 0
   m_Name: new place
   m_TagString: Untagged
@@ -367,7 +368,97 @@ MonoBehaviour:
   price: 100
   maxWaitInCicle: 0.3
   land: {fileID: 0}
-  nextPlace: {fileID: 0}
+  nextPlaces: []
+  opened: 0
+--- !u!114 &5127701233646903438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7397881037734055044}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -499960783, guid: c3ab396f3f53d1c4ebc7bae03391b186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FieldsEnable:
+    Version: 2
+    PathsEnabled:
+    - newPlace/price
+    ModificationVersion: 7
+    ComponentsEnabled: []
+    HashFieldsEnabled: []
+    ObjectsEnabled: 
+    HashSetFieldsEnabled:
+      m_buckets: 000000000000000001000000
+      m_slots:
+      - hashCode: 1073968799
+        next: -1
+        value:
+          HashCodePath: 545639157
+          HashCodeMember: -1724686465
+      - hashCode: 0
+        next: 0
+        value:
+          HashCodePath: 0
+          HashCodeMember: 0
+      - hashCode: 0
+        next: 0
+        value:
+          HashCodePath: 0
+          HashCodeMember: 0
+      m_count: 1
+      m_lastIndex: 1
+      m_freeList: -1
+      m_version: 10
+    HashSetObjectsEnabled:
+      m_buckets: 010000000000000000000000
+      m_slots:
+      - hashCode: 545639157
+        next: -1
+        value: 545639157
+      - hashCode: 0
+        next: 0
+        value: 0
+      - hashCode: 0
+        next: 0
+        value: 0
+      m_count: 1
+      m_lastIndex: 1
+      m_freeList: -1
+      m_version: 10
+    HashSetComponentsEnabled:
+      m_buckets: 010000000000000000000000
+      m_slots:
+      - hashCode: 545639157
+        next: -1
+        value: newPlace
+      - hashCode: 0
+        next: 0
+        value: 
+      - hashCode: 0
+        next: 0
+        value: 
+      m_count: 1
+      m_lastIndex: 1
+      m_freeList: -1
+      m_version: 10
+    AreValidSavedHashs: 1
+  Position: 0
+  Rotation: 0
+  Scale: 0
+  Name: 0
+  Tag: 0
+  Active: 0
+  Static: 0
+  Layer: 0
+  GAMEOBJECT_STATIC_ID: 0
+  GAMEOBJECT_PATH: 
+  Private_prefabId: 1344398502
+  PrefabSetTime: 1659177607
+  CreateInRuntime: 0
+  onLoad: 0
 --- !u!1 &7397881039024763691
 GameObject:
   m_ObjectHideFlags: 0

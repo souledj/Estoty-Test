@@ -30,7 +30,8 @@ public class plant : MonoBehaviour
             {
                 if (gardenBed.allPlantsIsReady)
                 {
-                    gardenBed.player.Watering(false);
+                    gardenBed.allPlantsIsReady = false;
+                    gardenBed.player.Normalize();
                     gardenBed.GardenBedIsReady = true;
                     gardenBed.check = true;
                 }
@@ -38,10 +39,12 @@ public class plant : MonoBehaviour
                 {
 
                     gardenBed.allPlantsIsReady = true;
-                    gardenBed.player.seeding = false;
+                    gardenBed.player.Normalize();
                     gardenBed.SeedsButton.GetComponent<seedsButton>().Seeds = false;
                     gardenBed.check = true;
+                    gardenBed.PlantsReady.Clear();
                 }
+               
             }
         }
         else
@@ -55,7 +58,7 @@ public class plant : MonoBehaviour
     {
         transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, Time.deltaTime * 2);
         if(transform.localScale == Vector3.one & oneTime)
-        {
+        {            
             Add();
             oneTime = false;
         }

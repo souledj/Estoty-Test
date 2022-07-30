@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8997222306315623523}
   - component: {fileID: 8997222306315623522}
   - component: {fileID: 8997222306315623521}
+  - component: {fileID: 3072341359550464639}
   m_Layer: 0
   m_Name: Garden bed
   m_TagString: Untagged
@@ -47,12 +48,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   culture: {fileID: 21300000, guid: 2a829e6cf49c4e44bb818a56e98af4f4, type: 3}
+  SeedsButton: {fileID: 0}
+  player: {fileID: 0}
   LandsRoot: {fileID: 8997222306409160181}
   Cultures: []
   Plant: {fileID: 3864103809154801593, guid: aa6fc892fb508e54eb4dc5e58bd1b577, type: 3}
   PlantsReady: []
+  PlantsTotal: 0
+  allPlantsIsReady: 0
   waterCan: {fileID: 21300000, guid: 5837055012a9eaf4b9cd33491224663d, type: 3}
   GardenBedIsReady: 0
+  check: 0
   ScytheIco: {fileID: 21300000, guid: 4644284fe23d8a044acc3de2ebd86972, type: 3}
 --- !u!65 &8997222306315623521
 BoxCollider:
@@ -65,8 +71,63 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8, y: 3, z: 8}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 8, y: 4.708173, z: 8}
+  m_Center: {x: 0, y: 1.8874259, z: 0}
+--- !u!114 &3072341359550464639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8997222306315623520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -499960783, guid: c3ab396f3f53d1c4ebc7bae03391b186, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FieldsEnable:
+    Version: 2
+    PathsEnabled: []
+    ModificationVersion: 6
+    ComponentsEnabled: []
+    HashFieldsEnabled: []
+    ObjectsEnabled: 
+    HashSetFieldsEnabled:
+      m_buckets: 
+      m_slots: []
+      m_count: 0
+      m_lastIndex: 0
+      m_freeList: -1
+      m_version: 6
+    HashSetObjectsEnabled:
+      m_buckets: 
+      m_slots: []
+      m_count: 0
+      m_lastIndex: 0
+      m_freeList: -1
+      m_version: 6
+    HashSetComponentsEnabled:
+      m_buckets: 
+      m_slots: []
+      m_count: 0
+      m_lastIndex: 0
+      m_freeList: -1
+      m_version: 6
+    AreValidSavedHashs: 1
+  Position: 0
+  Rotation: 0
+  Scale: 0
+  Name: 0
+  Tag: 0
+  Active: 0
+  Static: 0
+  Layer: 0
+  GAMEOBJECT_STATIC_ID: 0
+  GAMEOBJECT_PATH: 
+  Private_prefabId: 1978412203
+  PrefabSetTime: 1659185195
+  CreateInRuntime: 0
+  onLoad: 0
 --- !u!1 &8997222306409160180
 GameObject:
   m_ObjectHideFlags: 0

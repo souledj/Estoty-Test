@@ -14,6 +14,7 @@ public class newPlace : MonoBehaviour
     public Transform land;
     private waitingIco waitingIco;
     public List<GameObject> nextPlaces;
+    private bool opened;
 
     // Start is called before the first frame update
     void Awake()
@@ -24,7 +25,30 @@ public class newPlace : MonoBehaviour
         waitingIco = FindObjectOfType<canvasManager>().waitingIco;
         text.text = price.ToString();
         land = transform.GetChild(1);
+        land.gameObject.SetActive(false);
     }
+
+
+    void Start()
+    {
+        if (price == 0)
+        {
+            opened = true;
+            land.gameObject.SetActive(true);
+            land.localPosition = new Vector3(land.localPosition.x, -1, land.localPosition.z);
+            land.localScale = new Vector3(2, 2, 2);
+            foreach (GameObject go in nextPlaces)
+            {
+                go.SetActive(true);
+            }
+
+        }
+        else
+        {
+            text.text = price.ToString();
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -34,11 +58,12 @@ public class newPlace : MonoBehaviour
             land.localPosition = Vector3.MoveTowards(land.localPosition, new Vector3(land.localPosition.x, -1, land.localPosition.z), Time.deltaTime * 3);
             land.localScale = Vector3.MoveTowards(land.localScale, new Vector3(2,2,2), Time.deltaTime * 3);
             if (land.localScale == new Vector3(2, 2, 2) & nextPlaces.Count>0)
-            {
-                foreach(GameObject go in nextPlaces)
+            {                              
+                foreach (GameObject go in nextPlaces)
                 {
                     go.SetActive(true);
                 }
+               
             }
         }
     }
@@ -47,7 +72,7 @@ public class newPlace : MonoBehaviour
     {
         if(other.gameObject.layer == 6 & !open)
         {
-            if(PlayerPrefs.GetInt("money") > 0)
+            if(PlayerPrefs.GetInt("money") > 0 & !opened)
             {
                 StartCoroutine(Opening());
                 waitingIco.gameObject.SetActive(true);
