@@ -25,14 +25,17 @@ public class animalFidder : MonoBehaviour
     public Transform produscts;
     public float maxf;
     public float minf;
-    private Transform player;
+    private Player player;
     public float offset;
     private bool FeedNow;
+    public Transform feedingPoint;
+    public float feedUpTime;
+    
 
     // Start is called before the first frame update
     void Awake()
     {
-        player = FindObjectOfType<Player>().transform;
+        player = FindObjectOfType<Player>();
         cultureName = OfferFromIco.GetComponent<Image>().sprite.name;
         animator = GetComponentInChildren<Animator>();
         OfferFromText = OfferFromIco.transform.GetComponentInChildren<TextMeshProUGUI>();
@@ -57,13 +60,36 @@ public class animalFidder : MonoBehaviour
     {
         if(feedUp)
         {
-            feed.localScale = Vector3.MoveTowards(feed.localScale, Vector3.one, Time.deltaTime * 1);
-            if(feed.localScale == Vector3.one)
+            bool PlayerReady;
+           
+            if(Vector3.Distance(player.transform.position, feedingPoint.position) < 0.3f)
             {
-                animator.SetBool("feed", true);
-                StartCoroutine(Feeding());
-                feedUp = false;
+
+                PlayerReady = true;
             }
+            else
+            {
+                Vector3 vector = feedingPoint.position - player.transform.position;
+                player.characterController.SimpleMove(vector.normalized * player.MoveSpeed * 0.5f);
+                player.animator.SetFloat("Blend", vector.magnitude * 0.5f, 0.05f, Time.deltaTime);
+                PlayerReady = false;
+            }
+            
+            if (PlayerReady)
+            {
+                player.animator.SetBool("feeding", true);
+                player.transform.forward = Vector3.Lerp(player.transform.forward, feedingPoint.forward, Time.deltaTime * 3);
+                feed.localScale = Vector3.MoveTowards(feed.localScale, Vector3.one, Time.deltaTime * feedUpTime);
+                if (feed.localScale == Vector3.one)
+                {
+                    player.animator.SetBool("feeding", false);
+                    player.stop = false;
+                    animator.SetBool("feed", true);
+                    StartCoroutine(Feeding());
+                    feedUp = false;
+                }
+            }
+           
         }
     }
 
@@ -79,7 +105,7 @@ public class animalFidder : MonoBehaviour
                      
             yield return new WaitForSeconds(0.01f);
             product.gameObject.SetActive(true);
-            rb.AddForce((new Vector3(player.position.x + (Random.Range(-4,4)), player.position.y + offset, player.position.z + (Random.Range(-4, 4))) - produscts.position).normalized * Random.Range(minf,maxf), ForceMode.VelocityChange);
+            rb.AddForce((new Vector3(player.transform.position.x + (Random.Range(-4,4)), player.transform.position.y + offset, player.transform.position.z + (Random.Range(-4, 4))) - produscts.position).normalized * Random.Range(minf,maxf), ForceMode.VelocityChange);
         }
         FeedNow = false;
         StopAllCoroutines();
@@ -118,6 +144,7 @@ public class animalFidder : MonoBehaviour
                 int PlayerHave = PlayerPrefs.GetInt(cultureName);
                 if (PlayerHave > OfferFrom)
                 {
+                    player.stop = true;
                     feedUp = true;
                     FeedNow = true;
                     PlayerPrefs.SetInt(cultureName, PlayerHave - OfferFrom);

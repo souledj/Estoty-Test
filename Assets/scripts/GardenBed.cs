@@ -77,7 +77,8 @@ public class GardenBed : MonoBehaviour
                      
             TargetLand.GetChild(i).gameObject.SetActive(true);
 
-        }        
+        }
+       // TargetLand.GetChild(i).GetComponent<plant>().Add();
     }
 
     // Update is called once per frame
