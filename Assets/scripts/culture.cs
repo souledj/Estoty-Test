@@ -6,12 +6,15 @@ public class culture : MonoBehaviour
 {
     public GameObject Fetus;
     private GardenBed gardenBed;
+    public Color colorForScythe;
+    public Ground ground;
 
     // Start is called before the first frame update
     void Awake()
     {
         transform.localScale = Vector3.zero;
-        gardenBed = GetComponentInParent<GardenBed>();       
+        gardenBed = GetComponentInParent<GardenBed>();
+        ground = transform.GetComponentInParent<Ground>();
     }
 
     // Update is called once per frame
@@ -24,11 +27,10 @@ public class culture : MonoBehaviour
     {
         if(transform.localScale == Vector3.one)
         {
-            Ground ground = transform.GetComponentInParent<Ground>();
-            ground.onetime = true;
+            FindObjectOfType<camera_controller>().shake(0.1f);
             ground.Transparent();
             ground.transform.GetChild(0).gameObject.SetActive(false);
-            ground.stage = 0;
+            ground.stage = 0;            
             Fetus.transform.localScale = Vector3.one*10;
             Fetus.transform.parent = null;
             Fetus.SetActive(true);

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 285698449648892165}
   m_Layer: 7
   m_Name: tomato seedling
-  m_TagString: Untagged
+  m_TagString: culture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -80,6 +80,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fetus: {fileID: 3374159242463085888}
+  colorForScythe: {r: 0, g: 1, b: 0.055678606, a: 1}
+  ground: {fileID: 0}
 --- !u!114 &285698449648892165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,6 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gardenBed: {fileID: 0}
   firstTime: 0
+  oneTime: 0
 --- !u!1001 &462703471294854397
 PrefabInstance:
   m_ObjectHideFlags: 0

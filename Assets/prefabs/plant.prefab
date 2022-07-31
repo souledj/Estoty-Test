@@ -71,6 +71,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: plant
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a868df66cf6d9e747a1fada98ddfa09b, type: 3}
+      propertyPath: m_TagString
+      value: plant
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -7511558181221131132, guid: a868df66cf6d9e747a1fada98ddfa09b, type: 3}
     - {fileID: -5754084199372789682, guid: a868df66cf6d9e747a1fada98ddfa09b, type: 3}
@@ -92,6 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e9a878c6084ce4aaa10f13b26f3365, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gardenBed: {fileID: 0}
+  firstTime: 0
+  oneTime: 0
 --- !u!4 &4533960844019991811 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a868df66cf6d9e747a1fada98ddfa09b, type: 3}

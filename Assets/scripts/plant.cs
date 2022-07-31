@@ -8,6 +8,7 @@ public class plant : MonoBehaviour
     public bool firstTime;
     public bool oneTime;
     private Ground ground;
+    private bool isPlant;
 
 
     // Start is called before the first frame update
@@ -16,6 +17,10 @@ public class plant : MonoBehaviour
         transform.localScale = Vector3.zero;
         gardenBed = GetComponentInParent<GardenBed>();
         ground = GetComponentInParent<Ground>();
+        if(gameObject.tag == "plant")
+        {
+            isPlant = true;
+        }
     }
 
     private void OnEnable()
@@ -28,7 +33,7 @@ public class plant : MonoBehaviour
     {
         if(!gardenBed.PlantsReady.Contains(transform))
         {
-            if (!gardenBed.allPlantsIsReady)
+            if (isPlant)
             {
                 gardenBed.PlantsReady.Add(transform);               
                 if (gardenBed.PlantsReady.Count == gardenBed.PlantsTotal)

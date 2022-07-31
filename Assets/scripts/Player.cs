@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
     private float maxMagnitude = 1;
     public GameObject water;
     public bool scythe;
-    public GameObject ScytheObj;
+    public scythe ScytheObj;
     public bool stop;
     public Vector3 pos;
 
@@ -94,12 +94,12 @@ public class Player : MonoBehaviour
         if(On)
         {
             scythe = true;
-            ScytheObj.SetActive(true);
+            ScytheObj.gameObject.SetActive(true);
         }
         else
         {
             scythe = false;
-            ScytheObj.SetActive(false);
+            ScytheObj.gameObject.SetActive(false);
         }
     }
 

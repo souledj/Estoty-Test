@@ -58,27 +58,47 @@ public class GardenBed : MonoBehaviour
 
     IEnumerator Start()
     {
-        start = true;
-        for (int i = 0; i < LandsRoot.childCount; i++)
+        if(GardenBedIsReady)
         {
-            Ground ground = LandsRoot.GetChild(i).GetComponent<Ground>();
-            int stage = ground.stage;
-            if(stage == 1 ^ stage == 2)
-            {               
-                Gross(i, true);
-            }           
-        }
-        yield return new WaitForSeconds(0.1f);
-        for (int i = 0; i < LandsRoot.childCount; i++)
-        {
-            Ground ground = LandsRoot.GetChild(i).GetComponent<Ground>();
-            int stage = ground.stage;
-            if (stage == 2)
+          
+            for (int i = 0; i < LandsRoot.childCount; i++)
             {
-                Gross(i, false);
+                Ground ground = LandsRoot.GetChild(i).GetComponent<Ground>();
+                int stage = ground.stage;
+                if (stage == 2)
+                {
+                    Gross(i, false);
+                }
             }
+            yield return null;
         }
-        start = false;
+        else
+        {
+           
+
+            start = true;
+            for (int i = 0; i < LandsRoot.childCount; i++)
+            {
+                Ground ground = LandsRoot.GetChild(i).GetComponent<Ground>();
+                int stage = ground.stage;
+                if (stage == 1 ^ stage == 2)
+                {
+                    Gross(i, true);
+                }
+            }
+            yield return new WaitForSeconds(0.1f);
+            for (int i = 0; i < LandsRoot.childCount; i++)
+            {
+                Ground ground = LandsRoot.GetChild(i).GetComponent<Ground>();
+                int stage = ground.stage;
+                if (stage == 2)
+                {
+                    Gross(i, false);
+                }
+            }
+            start = false;
+        }
+      
     }
 
 
@@ -131,20 +151,25 @@ public class GardenBed : MonoBehaviour
         {
            
             if (allPlantsIsReady)
-            {
-               //PlantsReady.Clear();
-               seedsButtonComp.Watering = true;
-               seedsButtonComp.image.sprite = waterCan;               
+            {               
+                seedsButtonComp.Watering = true;
+                seedsButtonComp.Seeds = false;
+                seedsButtonComp.Scythe = false;
+                seedsButtonComp.image.sprite = waterCan;               
             }
             else
             {
                 seedsButtonComp.Seeds = true;
+                seedsButtonComp.Scythe = false;
+                seedsButtonComp.Watering = false;
                 seedsButtonComp.image.sprite = culture;
             }          
         }
         else
         {
             seedsButtonComp.Scythe = true;
+            seedsButtonComp.Seeds = false;
+            seedsButtonComp.Watering = false;
             seedsButtonComp.image.sprite = ScytheIco;
         }
         SeedsButton.gameObject.SetActive(true);

@@ -16,40 +16,25 @@ public class Ground : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        renderer = GetComponentInChildren<Renderer>();
+        renderer = transform.GetChild(0).GetComponent<Renderer>();
         sourceMaterial = renderer.material;
         material = new Material(sourceMaterial);
         color = material.color;
         colorTransparent = new Color(color.r, color.g, color.b, 0);        
     }
 
-    private void Start()
-    {
-        /*/GardenBed gardenBed = GetComponentInParent<GardenBed>();       
-        switch (stage)
-        {           
-            case 1:
-                gardenBed.Gross(transform.GetSiblingIndex(), true);
-                break;
-            case 2:
-                gardenBed.Gross(transform.GetSiblingIndex(), false);
-                
-                break;
-        }     /*/  
-    }
 
     public void Transparent()
     {
-        if (onetime)
+        if (stage == 1)
         {
-            
             material.color = colorTransparent;
             renderer.material = material;
             colorGo = true;
-            onetime = false;
         }
         
     }
+ 
 
     // Update is called once per frame
     void Update()
