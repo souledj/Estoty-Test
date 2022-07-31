@@ -11,8 +11,8 @@ public class seller : MonoBehaviour
     public Transform coins;
     public int CoinsAmount;
     public GameObject CoinPrefab;
+    int coinsToSpawn;
 
-   
     void Awake()
     {
        for (int i = 0; i < CoinsAmount; i++)
@@ -31,6 +31,7 @@ public class seller : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.gameObject.layer == 6)
         {
             foreach (var productname in products)
@@ -51,9 +52,10 @@ public class seller : MonoBehaviour
                     int money = PlayerPrefs.GetInt("money");
                     PlayerPrefs.SetInt("money",money + (amount * price));                    
                     PlayerPrefs.SetInt(productName, 0);
+                    coinsToSpawn = Mathf.Clamp(amount * price, 0, coins.childCount);
 
                 }
-                for (int i = 0; i < coins.childCount; i++)
+                for (int i = 0; i < coinsToSpawn; i++)
                 {
                     coin coin = coins.GetChild(i).GetComponent<coin>();
                     coin.gameObject.SetActive(true);

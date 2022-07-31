@@ -13,6 +13,7 @@ public class coin : MonoBehaviour
     public float min;
     public float max;
     public float time;
+    private Player player;
 
     // Start is called before the first frame update
     void Awake()
@@ -20,6 +21,7 @@ public class coin : MonoBehaviour
         mainCamera = Camera.main;
         coinsCounter = FindObjectOfType<countes>().money;
         rb = GetComponent<Rigidbody>();
+        player = FindObjectOfType<Player>();
     }
 
     private void OnEnable()
@@ -52,8 +54,9 @@ public class coin : MonoBehaviour
     {
         if(go)
         {
-            Vector3 target = mainCamera.ScreenToWorldPoint(new Vector3(coinsCounter.position.x, coinsCounter.position.y, -mainCamera.transform.position.z));
-            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * speed*Random.Range(0.5f,5));
+            //mainCamera.ScreenToWorldPoint(new Vector3(coinsCounter.position.x, coinsCounter.position.y, -mainCamera.transform.position.z));
+            Vector3 target = new Vector3( player.transform.position.x, player.transform.position.y +1, player.transform.position.z); 
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * speed*Random.Range(0.5f,1));
             if(Vector3.Distance(transform.position, target) < 1)
             {
                 transform.position = transform.parent.position;

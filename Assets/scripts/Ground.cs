@@ -12,6 +12,7 @@ public class Ground : MonoBehaviour
     public bool onetime = true;
     private bool colorGo;
     public int stage = 0;
+    public bool colorFade;
 
     // Start is called before the first frame update
     void Awake()
@@ -43,6 +44,17 @@ public class Ground : MonoBehaviour
         {
             material.color = Color.Lerp(material.color, color, Time.deltaTime * 0.5f);
             renderer.material = material;
+        }
+        if(colorFade)
+        {
+            material.color = Color.Lerp(material.color, colorTransparent, Time.deltaTime * 5);
+            renderer.material = material;
+          
+            if(material.color.a < 0.05f)
+            {
+                colorFade = false;
+                renderer.gameObject.SetActive(false);
+            }
         }
       
     }

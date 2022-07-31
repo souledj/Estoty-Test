@@ -10,6 +10,7 @@ public class fetus : MonoBehaviour
     private bool oneTime = true;
     private Rigidbody rb;
     public Transform parent;
+    private Player player; 
 
 
     // Start is called before the first frame update
@@ -17,7 +18,8 @@ public class fetus : MonoBehaviour
     {
         mainCamera = Camera.main;
         rb = GetComponent<Rigidbody>();
-        
+        player = FindObjectOfType<Player>();
+
     }
 
     // Update is called once per frame
@@ -25,9 +27,10 @@ public class fetus : MonoBehaviour
     {
         
         if (ready)
-        {   Vector3 target = mainCamera.ScreenToWorldPoint(new Vector3(TargetCounter.position.x, TargetCounter.position.y,- mainCamera.transform.position.z));            
-            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * 30f);                     
-            if (Vector3.Distance(transform.position, target) < 1)
+        {
+            Vector3 target = player.transform.position;//mainCamera.ScreenToWorldPoint(new Vector3(TargetCounter.position.x, TargetCounter.position.y,- mainCamera.transform.position.z));            
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * 10f);                     
+            if (Vector3.Distance(transform.position, target) < 0.01f)
             {
                 PlayerPrefs.SetInt(name, PlayerPrefs.GetInt(name) + 1);
                 transform.parent = parent;

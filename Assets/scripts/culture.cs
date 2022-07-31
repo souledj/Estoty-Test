@@ -29,7 +29,7 @@ public class culture : MonoBehaviour
         {
             FindObjectOfType<camera_controller>().shake(0.1f);
             ground.Transparent();
-            ground.transform.GetChild(0).gameObject.SetActive(false);
+            ground.colorFade = true;
             ground.stage = 0;            
             Fetus.transform.localScale = Vector3.one*10;
             Fetus.transform.parent = null;
