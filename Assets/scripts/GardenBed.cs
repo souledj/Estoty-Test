@@ -10,7 +10,7 @@ public class GardenBed : MonoBehaviour
     private Camera mainCamera;
     public Player player;
     public Transform LandsRoot;
-    public List<Transform> Cultures = new List<Transform>();
+    public List<Transform> CulturesReady = new List<Transform>();
     public GameObject Plant;
     public List<Transform> PlantsReady = new List<Transform>();
     //private int PlantsIsReady;
@@ -22,6 +22,7 @@ public class GardenBed : MonoBehaviour
     public bool check;
     public Sprite ScytheIco;
     private seedsButton seedsButtonComp;
+    bool start;
 
     // Start is called before the first frame update
     void Awake()
@@ -46,8 +47,7 @@ public class GardenBed : MonoBehaviour
 
         for (int i = 0; i < LandsRoot.childCount; i++)
         {
-            Transform culture = Instantiate(CultureToLoad, LandsRoot.GetChild(i).transform.position, Quaternion.identity, LandsRoot.GetChild(i).transform).transform;
-            Cultures.Add(culture);
+            Transform culture = Instantiate(CultureToLoad, LandsRoot.GetChild(i).transform.position, Quaternion.identity, LandsRoot.GetChild(i).transform).transform;           
             culture.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
             culture.gameObject.SetActive(false);
             culture.gameObject.name = i.ToString();
@@ -56,41 +56,29 @@ public class GardenBed : MonoBehaviour
 
     }
 
-    private void Start()
+    IEnumerator Start()
     {
-        int numb = 0;
-        bool go = false;
-        if(allPlantsIsReady)
+        start = true;
+        for (int i = 0; i < LandsRoot.childCount; i++)
         {
-            allPlantsIsReady = false;
-            numb = 1;
-            go = true;
+            Ground ground = LandsRoot.GetChild(i).GetComponent<Ground>();
+            int stage = ground.stage;
+            if(stage == 1 ^ stage == 2)
+            {               
+                Gross(i, true);
+            }           
         }
-        else if(GardenBedIsReady)
+        yield return new WaitForSeconds(0.1f);
+        for (int i = 0; i < LandsRoot.childCount; i++)
         {
-            numb = 2;
-            go = true;
-        }
-
-        if(go)
-        {
-            for (int i = 0; i < PlantsTotal; i++)
+            Ground ground = LandsRoot.GetChild(i).GetComponent<Ground>();
+            int stage = ground.stage;
+            if (stage == 2)
             {
-                Transform TargetLand = LandsRoot.GetChild(i);
-                if (GardenBedIsReady)
-                {
-                    Transform ground = TargetLand.GetChild(0);
-                    ground.gameObject.SetActive(true);
-                    ground.localScale = Vector3.one*0.5f;
-                }
-               
-                Transform plant = TargetLand.GetChild(numb);
-                plant.gameObject.SetActive(true);
-                plant.localScale = Vector3.one;
-                
+                Gross(i, false);
             }
         }
-       
+        start = false;
     }
 
 
@@ -109,15 +97,19 @@ public class GardenBed : MonoBehaviour
         {
             i = 2;
             TargetLand.GetChild(0).gameObject.SetActive(true);
-            TargetLand.GetChild(0).GetComponent<wetGround>().Transparent();
+            TargetLand.GetComponent<Ground>().Transparent();
 
             TargetLand.GetChild(1).localScale = Vector3.zero;
             TargetLand.GetChild(1).gameObject.SetActive(false);
                      
             TargetLand.GetChild(i).gameObject.SetActive(true);
 
+        }  
+        if(!start)
+        {
+            TargetLand.GetComponent<Ground>().stage = i;
         }
-       // TargetLand.GetChild(i).GetComponent<plant>().Add();
+        
     }
 
     // Update is called once per frame
@@ -183,7 +175,9 @@ public class GardenBed : MonoBehaviour
     }
 
     public void Reload()
-    {        
+    {
+        PlantsReady.Clear();
+        CulturesReady.Clear();
         allPlantsIsReady = false;
         GardenBedIsReady = false;
         player.Normalize();

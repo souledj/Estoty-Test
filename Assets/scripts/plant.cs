@@ -7,17 +7,20 @@ public class plant : MonoBehaviour
     public GardenBed gardenBed;
     public bool firstTime;
     public bool oneTime;
+    private Ground ground;
 
 
     // Start is called before the first frame update
     void Awake()
     {
         transform.localScale = Vector3.zero;
-        gardenBed = GetComponentInParent<GardenBed>();        
+        gardenBed = GetComponentInParent<GardenBed>();
+        ground = GetComponentInParent<Ground>();
     }
 
     private void OnEnable()
     {
+        transform.localPosition = Vector3.zero;
         oneTime = true;
     }
 
@@ -25,42 +28,42 @@ public class plant : MonoBehaviour
     {
         if(!gardenBed.PlantsReady.Contains(transform))
         {
-            gardenBed.PlantsReady.Add(transform);
-            if (gardenBed.PlantsReady.Count == gardenBed.PlantsTotal)
+            if (!gardenBed.allPlantsIsReady)
             {
-                if (gardenBed.allPlantsIsReady)
+                gardenBed.PlantsReady.Add(transform);               
+                if (gardenBed.PlantsReady.Count == gardenBed.PlantsTotal)
                 {
-                    gardenBed.allPlantsIsReady = false;
-                    gardenBed.player.Normalize();
-                    gardenBed.GardenBedIsReady = true;
-                    gardenBed.check = true;
-                }
-                else
-                {
-
-                    gardenBed.allPlantsIsReady = true;
                     gardenBed.player.Normalize();
                     gardenBed.SeedsButton.GetComponent<seedsButton>().Seeds = false;
                     gardenBed.check = true;
-                    gardenBed.PlantsReady.Clear();
+                    gardenBed.allPlantsIsReady = true;
                 }
-               
+
             }
-        }
-        else
-        {
-            Debug.Log("no");
+            else
+            {
+                gardenBed.CulturesReady.Add(transform);                
+                if (gardenBed.CulturesReady.Count == gardenBed.PlantsTotal)
+                {
+                    gardenBed.GardenBedIsReady = true;
+                    gardenBed.player.Normalize();
+                    gardenBed.check = true;
+                }
+            }
+           
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, Time.deltaTime * 2);
-        if(transform.localScale == Vector3.one & oneTime)
-        {            
+        if(oneTime)
+        {
             Add();
             oneTime = false;
         }
+
+        transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, Time.deltaTime * 2);
+        
     }
 }

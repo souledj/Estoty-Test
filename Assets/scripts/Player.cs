@@ -35,8 +35,13 @@ public class Player : MonoBehaviour
     }
     // Start is called before the first frame update
     void Start()
-    {       
-        transform.position = pos;
+    {    
+        if(pos!=Vector3.zero)
+        {
+            transform.position = pos;
+        }
+       
+       
         FindObjectOfType<camera_controller>().transform.position = transform.position;
     }
 

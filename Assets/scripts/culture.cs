@@ -17,25 +17,25 @@ public class culture : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.localScale = Vector3.MoveTowards(transform.localScale, Vector3.one, Time.deltaTime * 2);
+      
     }
 
     public void Hit()
     {
         if(transform.localScale == Vector3.one)
         {
-            wetGround ground = transform.parent.GetComponentInChildren<wetGround>();
+            Ground ground = transform.GetComponentInParent<Ground>();
             ground.onetime = true;
             ground.Transparent();
-            ground.gameObject.SetActive(false);
-            
+            ground.transform.GetChild(0).gameObject.SetActive(false);
+            ground.stage = 0;
             Fetus.transform.localScale = Vector3.one*10;
             Fetus.transform.parent = null;
             Fetus.SetActive(true);
             Fetus.GetComponent<Rigidbody>().AddForce(Vector3.up * 5, ForceMode.VelocityChange);
             transform.localScale = Vector3.zero;
-            gardenBed.PlantsReady.Remove(transform);
-            if(gardenBed.PlantsReady.Count == 0)
+            gardenBed.CulturesReady.Remove(transform);
+            if(gardenBed.CulturesReady.Count == 0)
             {
                 gardenBed.Reload();
             }          
