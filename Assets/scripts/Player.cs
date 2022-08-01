@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 using SaveIsEasy;
+using System;
 
 
 
@@ -26,24 +27,55 @@ public class Player : MonoBehaviour
     public bool stop;
     public Vector3 pos;
     public Transform scytheGraber;
+    public Transform wateringGraber;
+    private canvasManager canvasManager;
+    private Camera mainCamera;
 
     private void Awake()
     {
+        mainCamera = Camera.main;
+        canvasManager = FindObjectOfType<canvasManager>();
         characterController = GetComponent<CharacterController>();  
         animator = GetComponentInChildren<Animator>();
         MaxMoveSpeed = MoveSpeed;
         rigBuilder = GetComponentInChildren<RigBuilder>();
-        ScytheSpawn(PlayerPrefs.GetInt("scytheLv"));
-       
+        ScytheObj = ToolSpawn("scythes/scythe " + PlayerPrefs.GetInt("scythe level"), scytheGraber).GetComponent<scythe>();
+        waterCan = ToolSpawn("waterings/watering can " + PlayerPrefs.GetInt("watering can level"), wateringGraber);
+        water.transform.localScale = (Vector3.one * (PlayerPrefs.GetInt("watering can level") + 1)) * 0.3f;
+
+
+    }
+    public void Upgrade(string target)
+    {
+        switch (target)
+        {
+            case "scythe":
+                Destroy(ScytheObj.gameObject);
+                ScytheObj = ToolSpawn("scythes/scythe " + PlayerPrefs.GetInt("scythe level"), scytheGraber).GetComponent<scythe>();
+                break;
+
+            case "watering can":
+                Destroy(waterCan);
+                waterCan = ToolSpawn("waterings/watering can " + PlayerPrefs.GetInt("watering can level"), wateringGraber);
+                water.transform.localScale = (Vector3.one * (PlayerPrefs.GetInt("watering can level") + 1)) * 0.3f;
+                break;
+        }
     }
 
-    public void ScytheSpawn(int level)
+    public event Action WaterIsLoss;
+
+    public void WaterLoss()
     {
-        string ScythePath = "scythes/scythe " + level.ToString();
-        var scytheToLoad = Resources.Load(ScythePath) as GameObject;
-        ScytheObj = Instantiate(scytheToLoad, scytheGraber.position, scytheGraber.rotation, scytheGraber).GetComponent<scythe>();
-        ScytheObj.transform.localScale *= (1 / 0.35f);
-        ScytheObj.gameObject.SetActive(false);
+        WaterIsLoss?.Invoke();
+    }
+
+    public GameObject ToolSpawn(string path, Transform graber)
+    {
+        var ToLoad = Resources.Load(path) as GameObject;
+        var Obj = Instantiate(ToLoad, graber.position, graber.rotation, graber);
+        Obj.transform.localScale *= (1 / 0.35f);
+        Obj.gameObject.SetActive(false);
+        return Obj;
 
     }
 
@@ -76,6 +108,9 @@ public class Player : MonoBehaviour
                 MoveSpeed = MaxMoveSpeed * 0.5f;
                 if (watering)
                 {
+                    RectTransform waterIco = canvasManager.waterIco;
+                    Vector3 target = mainCamera.WorldToScreenPoint(new Vector3(transform.position.x, transform.position.y + 3, transform.position.z));
+                    waterIco.position = Vector3.Lerp(waterIco.position, target, Time.deltaTime * 3);
                     water.SetActive(true);
                     maxMagnitude = 0.5f;
                 }
@@ -120,15 +155,19 @@ public class Player : MonoBehaviour
 
     public void Watering(bool On)
     {
-        if(On)
+        if(On & waterCan.GetComponent<wateringCan>().waterVolume > 0)
         {
             watering = true;
+            canvasManager.waterIco.gameObject.SetActive(true);
             rigBuilder.enabled = true;
             waterCan.SetActive(true);
+            waterCan.GetComponent<wateringCan>().Go();
+            //waterCan.GetComponent<wateringCan>().StartCoroutine("WateringLoss");
         }
         else
         {           
             rigBuilder.enabled = false;
+            canvasManager.waterIco.GetComponent<imageFader>().Off();
             waterCan.SetActive(false);
             watering = false;
             water.SetActive(false);
@@ -146,4 +185,6 @@ public class Player : MonoBehaviour
     {       
         seeding = true;
     }
+
+   
 }

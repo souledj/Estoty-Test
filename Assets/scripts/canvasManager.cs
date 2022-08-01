@@ -6,7 +6,8 @@ public class canvasManager : MonoBehaviour
 {
     public RectTransform SeedsButton;
     public waitingIco waitingIco;
-    public Animator UpgradeScreen;
+    public upgradeScreen UpgradeScreen;
+    public RectTransform waterIco;
    
    
 

@@ -6,13 +6,18 @@ public class barn : MonoBehaviour
 {
     private Animator animator;
     private canvasManager canvasManager;
+    private Animator upgradeAnimator;
+    private upgradeScreen upgradeScreen;
 
     // Start is called before the first frame update
     void Awake()
     {
         animator = GetComponent<Animator>();
         canvasManager = FindObjectOfType<canvasManager>();
+        upgradeAnimator = canvasManager.UpgradeScreen.GetComponent<Animator>();
+        upgradeScreen = canvasManager.UpgradeScreen;
 
+        
     }
 
     // Update is called once per frame
@@ -21,35 +26,40 @@ public class barn : MonoBehaviour
         
     }
     
-    public void doorsOpen()
+    public void doorsOpend()
     {
         if(animator.GetBool("open"))
         {
-            canvasManager.UpgradeScreen.SetBool("open", true);
+            upgradeAnimator.SetBool("open", true);
         }
     }
-    public void doorsClose()
+    public void doorsClosed()
     {
         if (!animator.GetBool("open"))
         {
-            canvasManager.UpgradeScreen.SetBool("open", false);
+            upgradeAnimator.SetBool("open", false);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == 6)
         {
+            upgradeScreen.CloseBarn += CloseDoors;
             animator.SetBool("open", true);
            
         }
+    }
+    public void CloseDoors()
+    {
+        animator.SetBool("open", false);
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 6)
         {
-            animator.SetBool("open", false);
+            CloseDoors();
         }
     }
 }

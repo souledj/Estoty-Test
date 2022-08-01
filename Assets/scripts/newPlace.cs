@@ -21,7 +21,7 @@ public class newPlace : MonoBehaviour
     {
         waitInCicle = maxWaitInCicle;
         text = GetComponentInChildren<TextMeshProUGUI>();
-        PlayerPrefs.SetInt("money", 150);
+        
         waitingIco = FindObjectOfType<canvasManager>().waitingIco;
         text.text = price.ToString();
         land = transform.GetChild(1);

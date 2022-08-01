@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class upgradeScreen : MonoBehaviour
 {
     private Animator animator;
+    public barn barn;
 
 
     // Start is called before the first frame update
@@ -13,9 +15,12 @@ public class upgradeScreen : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+
+    public event Action CloseBarn;
     public void Close()
     {
-        animator.SetBool("open",false);
+        CloseBarn?.Invoke();
+        animator.SetBool("open",false);    
     }
 
     // Update is called once per frame
