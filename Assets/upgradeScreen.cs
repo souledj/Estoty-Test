@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class canvasManager : MonoBehaviour
+public class upgradeScreen : MonoBehaviour
 {
-    public RectTransform SeedsButton;
-    public waitingIco waitingIco;
-    public Animator UpgradeScreen;
-   
-   
+    private Animator animator;
+
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        animator = GetComponent<Animator>();
+    }
+
+    public void Close()
+    {
+        animator.SetBool("open",false);
     }
 
     // Update is called once per frame

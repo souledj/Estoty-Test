@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     public scythe ScytheObj;
     public bool stop;
     public Vector3 pos;
+    public Transform scytheGraber;
 
     private void Awake()
     {
@@ -32,7 +33,21 @@ public class Player : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         MaxMoveSpeed = MoveSpeed;
         rigBuilder = GetComponentInChildren<RigBuilder>();
+        ScytheSpawn(PlayerPrefs.GetInt("scytheLv"));
+       
     }
+
+    public void ScytheSpawn(int level)
+    {
+        string ScythePath = "scythes/scythe " + level.ToString();
+        var scytheToLoad = Resources.Load(ScythePath) as GameObject;
+        ScytheObj = Instantiate(scytheToLoad, scytheGraber.position, scytheGraber.rotation, scytheGraber).GetComponent<scythe>();
+        ScytheObj.transform.localScale *= (1 / 0.35f);
+        ScytheObj.gameObject.SetActive(false);
+
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {    

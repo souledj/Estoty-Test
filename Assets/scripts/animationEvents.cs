@@ -27,7 +27,7 @@ public class animationEvents : MonoBehaviour
     {
         scythe scythe = player.ScytheObj;
 
-        if (on ==1)
+        if (on ==1 & player.joystick.MoveVector.magnitude > 0)
         {
            scythe.colliders.SetActive(true);
            scythe.trail.SetActive(true);
