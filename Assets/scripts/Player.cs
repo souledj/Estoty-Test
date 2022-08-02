@@ -59,10 +59,17 @@ public class Player : MonoBehaviour
                 waterCan = ToolSpawn("waterings/watering can " + PlayerPrefs.GetInt("watering can level"), wateringGraber);
                 water.transform.localScale = (Vector3.one * (PlayerPrefs.GetInt("watering can level") + 1)) * 0.3f;
                 break;
+
+            case "money":
+               
+                moneyUpgrade?.Invoke();
+                break;
         }
     }
 
     public event Action WaterIsLoss;
+    public event Action moneyUpgrade;
+
 
     public void WaterLoss()
     {
@@ -162,7 +169,7 @@ public class Player : MonoBehaviour
             rigBuilder.enabled = true;
             waterCan.SetActive(true);
             waterCan.GetComponent<wateringCan>().Go();
-            //waterCan.GetComponent<wateringCan>().StartCoroutine("WateringLoss");
+           
         }
         else
         {           

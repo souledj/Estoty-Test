@@ -11,7 +11,8 @@ public class wateringCan : MonoBehaviour
     public Image waterIco;
     public float waterVolume;
     public float maxWaterVolume;
-    public float waterSpeed;
+    private float maxWaterTime;
+    private float time;
      
 
     // Start is called before the first frame update
@@ -21,14 +22,19 @@ public class wateringCan : MonoBehaviour
         canvasManager = FindObjectOfType<canvasManager>();
         waterIco = canvasManager.waterIco.transform.GetChild(0).GetComponent<Image>();
         maxWaterVolume = waterVolume;
+        maxWaterTime = maxWaterVolume;
     }
 
 
     public void Go()
     {
+        float percent = ((waterVolume * 100) / maxWaterVolume);
+        time = (percent * maxWaterTime)/ 100;
+        float startIco = percent / 100;
+      
         StartCoroutine(WateringLoss(waterVolume));
-        float startIco = ((waterVolume * 100) / maxWaterVolume) / 100;
         StartCoroutine(WateringupIco(startIco));
+       
     }
 
     IEnumerator WateringLoss(float start)
@@ -39,7 +45,7 @@ public class wateringCan : MonoBehaviour
         float fraction = 0f;
         while (fraction < 1f)
         {
-            fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) / waterSpeed);
+            fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) / time);
             waterIco.fillAmount = Mathf.Lerp(startPosition, targetPosition, fraction);
             waterVolume = Mathf.Lerp(startPosition, targetPosition, fraction);
             if (waterVolume == 0)
@@ -61,7 +67,7 @@ public class wateringCan : MonoBehaviour
         float fraction = 0f;
         while (fraction < 1f)
         {
-            fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) / waterSpeed);
+            fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) / time);
             waterIco.fillAmount = Mathf.Lerp(startPosition, targetPosition, fraction);
             yield return null;
         }

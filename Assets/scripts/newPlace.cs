@@ -72,7 +72,7 @@ public class newPlace : MonoBehaviour
     {
         if(other.gameObject.layer == 6 & !open)
         {
-            if(PlayerPrefs.GetInt("money") > 0 & !opened)
+            if(PlayerPrefs.GetFloat("money") > 0 & !opened)
             {
                 StartCoroutine(Opening());
                 waitingIco.gameObject.SetActive(true);
@@ -85,7 +85,7 @@ public class newPlace : MonoBehaviour
     IEnumerator Opening()
     {
         yield return new WaitForSeconds(waitingTime);
-        int money = PlayerPrefs.GetInt("money");
+        float money = PlayerPrefs.GetFloat("money");
         for (int i = 0; i < money; i++)
         {
            
@@ -95,7 +95,7 @@ public class newPlace : MonoBehaviour
                 
                 if (money != 0)
                 {
-                    PlayerPrefs.SetInt("money", PlayerPrefs.GetInt("money") - 1);
+                    PlayerPrefs.SetFloat("money", PlayerPrefs.GetFloat("money") - 1);
                     price -= 1;
                     text.text = price.ToString();
                     waitingIco.CoinJump(waitInCicle);
@@ -103,7 +103,7 @@ public class newPlace : MonoBehaviour
                 }                               
             }            
             yield return new WaitForSeconds(waitInCicle);           
-            if (PlayerPrefs.GetInt("money") == 0)
+            if (PlayerPrefs.GetFloat("money") == 0)
             {
                 Off();
             }

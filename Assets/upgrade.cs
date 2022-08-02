@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class upgrade : MonoBehaviour
 {
@@ -11,9 +12,12 @@ public class upgrade : MonoBehaviour
     private string Pref;
     public Image button;
     int level;
-    int price;
+    public float price;
     private Player player;
     public int MaxLevel;
+    public float startPrice;
+    public float PriceGrossingPercent;
+    public GameObject maxLevelText;
 
 
 
@@ -22,15 +26,15 @@ public class upgrade : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         Pref = name;
-        PlayerPrefs.SetInt("money", 1000);
+        PlayerPrefs.SetFloat("money", 1000);
 
         if (!PlayerPrefs.HasKey(Pref + " price"))
         {
-            PlayerPrefs.SetInt(Pref + " price", 1000);
+            PlayerPrefs.SetFloat(Pref + " price", startPrice);
         }
        
         level = PlayerPrefs.GetInt(Pref + " level");
-        price = PlayerPrefs.GetInt(Pref + " price");
+        price = PlayerPrefs.GetFloat(Pref + " price");
         UpdateText();
     }
 
@@ -41,7 +45,7 @@ public class upgrade : MonoBehaviour
 
     private void CheckButton()
     {
-        if (PlayerPrefs.GetInt("money") >= price)
+        if (PlayerPrefs.GetFloat("money") >= price & level < MaxLevel-1)
         {
             button.color = Color.green;
         }
@@ -53,25 +57,40 @@ public class upgrade : MonoBehaviour
 
     public void UpdateText()
     {
-        levelText.text = "Level " + (level+2).ToString();
-        priceText.text = price.ToString();
+        if (level < MaxLevel - 1)
+        {
+            levelText.text = "Level " + (level + 2).ToString();
+            priceText.text = price.ToString();
+        }
+        else
+        {
+            priceText.gameObject.SetActive(false);
+            levelText.gameObject.SetActive(false);
+            maxLevelText.SetActive(true);
+        }
+       
 
     }
 
     public void Upgrade()
     {
-        int money = PlayerPrefs.GetInt("money");
-        if(money>=price)
+        float money = PlayerPrefs.GetFloat("money");
+        if(money>=price & level < MaxLevel-1)
         {
-            PlayerPrefs.SetInt("money", money - price);
+            PlayerPrefs.SetFloat("money", money - price);
             level++;
-            PlayerPrefs.SetInt(Pref + " level", Mathf.Clamp(level, 0, MaxLevel));
-            price += (price / 100) * 30;
-            PlayerPrefs.SetInt(Pref + " price", price);
+            PlayerPrefs.SetInt(Pref + " level", level);
+            price += Mathf.Round((price / 100) * PriceGrossingPercent);
+            PlayerPrefs.SetFloat(Pref + " price", price);
             UpdateText();
             player.Upgrade(Pref);
         }
-        CheckButton();
+
+        upgrade[] upgrades = FindObjectsOfType<upgrade>();
+        foreach (upgrade item in upgrades)
+        {
+            item.CheckButton();
+        }
     }
 
     // Update is called once per frame

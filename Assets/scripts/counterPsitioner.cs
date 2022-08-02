@@ -23,7 +23,16 @@ public class counterPsitioner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int amount = PlayerPrefs.GetInt(TargetPref);
+        float amount;
+        if (name == "money")
+        {
+            amount = PlayerPrefs.GetFloat(TargetPref);
+        }
+        else
+        {
+            amount = PlayerPrefs.GetInt(TargetPref);
+        }
+      
         
         text.text = amount.ToString();
 
