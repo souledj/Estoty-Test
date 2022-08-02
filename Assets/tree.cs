@@ -18,7 +18,9 @@ public class tree : MonoBehaviour
     public Transform treePivot;
     public ParticleSystem leaves;
     public Transform apples;
-    private List<Transform> ripesApples = new List<Transform>();
+    public List<Transform> ripesApples;
+    private List<Transform> notRipesApples = new List<Transform>();
+    bool treeBend;
 
     // Start is called before the first frame update
     void Awake()
@@ -26,16 +28,6 @@ public class tree : MonoBehaviour
         mainCamera = FindObjectOfType<camera_controller>().transform.GetChild(0);
         player = FindObjectOfType<Player>();
         canvasManager = FindObjectOfType<canvasManager>();
-        for (int i = 0; i < apples.childCount; i++)
-        {
-            Transform apple = apples.GetChild(i);
-            ripesApples.Add(apple);
-            fetus fetus =apple.GetComponentInChildren<fetus>();
-            fetus.parent = apple;
-            fetus.enabled = false;
-            apple.GetComponentInChildren<Rigidbody>().isKinematic = true;
-
-        }
     }
 
     // Update is called once per frame
@@ -44,7 +36,7 @@ public class tree : MonoBehaviour
        if(playerIn)
         {
             bool PlayerReady;
-
+           
             if (Vector3.Distance(player.transform.position, playerPivot.position) < 0.3f)
             {
                 PlayerReady = true;
@@ -73,6 +65,7 @@ public class tree : MonoBehaviour
                 if(Input.GetMouseButtonDown(0))
                 {
                     startClick = Input.mousePosition;
+                    treeBend = true;
                 }
                 if(Input.GetMouseButton(0))
                 {
@@ -101,57 +94,70 @@ public class tree : MonoBehaviour
                     shake = false;
                     shakeback = false;
                 }
+                if(treeBend)
+                {
+                    treePivot.rotation = Quaternion.LookRotation(player.treeShaker.forward, treePivot.up);
+                }
 
-                treePivot.rotation = Quaternion.LookRotation(player.treeShaker.forward, treePivot.up);
+                
             }
         }
        else
         {
-            treePivot.forward = Vector3.Lerp(treePivot.forward, Vector3.up, Time.deltaTime * 3);
+            treePivot.forward = Vector3.up;
         }
     }
     private void AppleFall()
     {
         if (ripesApples.Count == 0)
         {
-            playerIn = false;
-            mainCamera.SetPositionAndRotation(camera.position, camera.rotation);
-            camera.gameObject.SetActive(false);
-            mainCamera.gameObject.SetActive(true);
-            StartCoroutine(CameraMove(mainCamera, FindObjectOfType<camera_controller>().cameraPivot, true));
+            StartCoroutine(Out());
         }
         else
         {
             var apple = ripesApples[Random.RandomRange(0, ripesApples.Count - 1)];
             apple.GetChild(0).localPosition = Vector3.zero;
-            apple.GetComponentInChildren<fetus>().enabled = true;
-            apple.GetComponentInChildren<Rigidbody>().isKinematic = false;
+            apple.GetComponent<apple>().fetus.enabled = true;
+            apple.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
+            notRipesApples.Add(apple);
             ripesApples.Remove(apple);
         }
        
         
     }
-    public void Out()
+    public IEnumerator Out()
     {
-       
+        playerIn = false;
+        treeBend = false;
+        mainCamera.SetPositionAndRotation(camera.position, camera.rotation);
+        camera.gameObject.SetActive(false);
+        mainCamera.gameObject.SetActive(true);
+        StartCoroutine(CameraMove(mainCamera, FindObjectOfType<camera_controller>().cameraPivot));
         player.joystick.gameObject.SetActive(true);
         player.animator.SetLayerWeight(0, 1);
         player.animator.SetLayerWeight(1, 0);
         player.animator.SetFloat("Blend", 0);
         player.stop = false;
-        
+        treePivot.GetComponent<Collider>().enabled = true;
         player.joystick.Disable();
+        yield return new WaitForSeconds(2);
+        for (int i = 0; i < notRipesApples.Count; i++)
+        {
+            notRipesApples[i].GetComponent<apple>().StartCoroutine("Grossing", 0);
+        }
+        notRipesApples.Clear();
 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == 6)
+        if (other.gameObject.layer == 6 & ripesApples.Count > 0)
         {
+            treePivot.GetComponent<Collider>().enabled = false;
             camera.SetPositionAndRotation(mainCamera.position, mainCamera.rotation);
             mainCamera.gameObject.SetActive(false);
             camera.gameObject.SetActive(true);
-            StartCoroutine(CameraMove(camera, cameraPivot, false));
+            StartCoroutine(CameraMove(camera, cameraPivot));
             player.joystick.gameObject.SetActive(false);
             player.animator.SetFloat("Blend", 0);
             player.stop = true;
@@ -159,7 +165,7 @@ public class tree : MonoBehaviour
         }
     }
 
-    IEnumerator CameraMove(Transform start, Transform target, bool ToOut)
+    IEnumerator CameraMove(Transform start, Transform target)
     {
         Transform obj = start;
         Vector3 targetPosition = target.position;
@@ -173,10 +179,6 @@ public class tree : MonoBehaviour
             fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) /cameraSpeed);
             obj.position = Vector3.Lerp(startPosition, targetPosition, fraction);
             obj.rotation = Quaternion.Slerp(startRotation, targetRotation, fraction);
-            if(ToOut & fraction ==1)
-            {
-                Out();
-            }
             yield return null;
         }
     }
