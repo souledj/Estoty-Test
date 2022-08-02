@@ -44,7 +44,7 @@ public class Joystick : MonoBehaviour, IDragHandler, IEndDragHandler
         Disable();
     }
 
-    void Disable()
+    public void Disable()
     {
         MoveVector = Vector3.zero;
         ImageJoystick.localPosition = Vector3.zero;

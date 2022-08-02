@@ -8,6 +8,7 @@ public class camera_controller : MonoBehaviour
     public GameObject target;
     public GameObject camera;
     private float cameraY;
+    public Transform cameraPivot;
 
     void Start()
     {

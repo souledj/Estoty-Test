@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class GardenBed : MonoBehaviour
@@ -23,6 +24,10 @@ public class GardenBed : MonoBehaviour
     public Sprite ScytheIco;
     private seedsButton seedsButtonComp;
     bool start;
+    public float reloadTime;
+    public float reloading;
+    private bool reloadNow;
+    private canvasManager canvasManager;
 
     // Start is called before the first frame update
     void Awake()
@@ -30,8 +35,8 @@ public class GardenBed : MonoBehaviour
         string path = "Cultures/" + culture.name + " seedling";
         GameObject CultureToLoad = Resources.Load(path) as GameObject;
         PlantsTotal = LandsRoot.childCount;
-
-        SeedsButton = FindObjectOfType<canvasManager>().SeedsButton;
+        canvasManager = FindObjectOfType<canvasManager>();
+        SeedsButton = canvasManager.SeedsButton;
         seedsButtonComp = SeedsButton.GetComponent<seedsButton>();
         mainCamera = Camera.main;
         player = FindObjectOfType<Player>();
@@ -147,33 +152,41 @@ public class GardenBed : MonoBehaviour
     }
     void SeedButtonActivating()
     {
-        if (!GardenBedIsReady)
+        if(!reloadNow)
         {
-           
-            if (allPlantsIsReady)
-            {               
-                seedsButtonComp.Watering = true;
-                seedsButtonComp.Seeds = false;
-                seedsButtonComp.Scythe = false;
-                seedsButtonComp.image.sprite = waterCan;               
+            if (!GardenBedIsReady)
+            {
+
+                if (allPlantsIsReady)
+                {
+                    seedsButtonComp.Watering = true;
+                    seedsButtonComp.Seeds = false;
+                    seedsButtonComp.Scythe = false;
+                    seedsButtonComp.image.sprite = waterCan;
+                }
+                else
+                {
+                    seedsButtonComp.Seeds = true;
+                    seedsButtonComp.Scythe = false;
+                    seedsButtonComp.Watering = false;
+                    seedsButtonComp.image.sprite = culture;
+                }
             }
             else
             {
-                seedsButtonComp.Seeds = true;
-                seedsButtonComp.Scythe = false;
+                seedsButtonComp.Scythe = true;
+                seedsButtonComp.Seeds = false;
                 seedsButtonComp.Watering = false;
-                seedsButtonComp.image.sprite = culture;
-            }          
+                seedsButtonComp.image.sprite = ScytheIco;
+            }
+            SeedsButton.gameObject.SetActive(true);
+            SeedsButton.position = mainCamera.WorldToScreenPoint(transform.position);
         }
         else
         {
-            seedsButtonComp.Scythe = true;
-            seedsButtonComp.Seeds = false;
-            seedsButtonComp.Watering = false;
-            seedsButtonComp.image.sprite = ScytheIco;
+            canvasManager.WaitingGardenBed.gameObject.SetActive(true); 
         }
-        SeedsButton.gameObject.SetActive(true);
-        SeedsButton.position = mainCamera.WorldToScreenPoint(transform.position);
+      
     }
 
     private void OnTriggerStay(Collider other)
@@ -185,8 +198,18 @@ public class GardenBed : MonoBehaviour
         }
 
         if (other.gameObject.layer == 6)
-        {           
-            SeedsButton.position = Vector3.Lerp(SeedsButton.position, mainCamera.WorldToScreenPoint(transform.position), Time.deltaTime * 5);
+        {
+            RectTransform targetObject;
+            if(reloadNow)
+            {
+                targetObject = canvasManager.WaitingGardenBed;
+                canvasManager.WaitingGardenBed.GetChild(0).GetComponent<Image>().fillAmount = reloading;
+            }
+            else
+            {
+                targetObject = SeedsButton;
+            }
+           targetObject.position = Vector3.Lerp(targetObject.position, mainCamera.WorldToScreenPoint(transform.position), Time.deltaTime * 5);
         }
     }
 
@@ -196,6 +219,7 @@ public class GardenBed : MonoBehaviour
         {
             player.Normalize();
             seedsButtonComp.Off();
+            canvasManager.WaitingGardenBed.GetComponent<imageFader>().Off();
         }
     }
 
@@ -206,7 +230,29 @@ public class GardenBed : MonoBehaviour
         allPlantsIsReady = false;
         GardenBedIsReady = false;
         player.Normalize();
+        reloadNow = true;
         check = true;
+        StartCoroutine(Reloading(0)); 
+    }
+
+    IEnumerator Reloading(float start)
+    {
+        float targetPosition = 1;
+        float startPosition = start;
+        float startTime = Time.realtimeSinceStartup;
+        float fraction = 0f;
+        while (fraction < 1f)
+        {
+            fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) / reloadTime);
+            reloading = Mathf.Lerp(startPosition, targetPosition, fraction);
+            if(reloading == targetPosition)
+            {
+                canvasManager.WaitingGardenBed.gameObject.SetActive(false);
+                reloadNow = false;
+                check = true;
+            }
+            yield return null;
+        }
     }
 
 

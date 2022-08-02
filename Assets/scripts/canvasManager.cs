@@ -8,6 +8,7 @@ public class canvasManager : MonoBehaviour
     public waitingIco waitingIco;
     public upgradeScreen UpgradeScreen;
     public RectTransform waterIco;
+    public RectTransform WaitingGardenBed;
    
    
 

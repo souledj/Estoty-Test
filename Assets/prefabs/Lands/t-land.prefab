@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3051560244666227076}
   - component: {fileID: 2159065124689139233}
   - component: {fileID: 4184544456794907371}
+  - component: {fileID: 3531439859110617399}
   m_Layer: 0
   m_Name: t-land
   m_TagString: Untagged
@@ -83,3 +84,16 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &3531439859110617399
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2383109485644776254}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 0.55, z: 5}
+  m_Center: {x: 0, y: 0.275, z: 0}

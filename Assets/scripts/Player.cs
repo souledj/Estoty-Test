@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     public Transform wateringGraber;
     private canvasManager canvasManager;
     private Camera mainCamera;
+    public Transform treeShaker;
 
     private void Awake()
     {
@@ -61,7 +62,6 @@ public class Player : MonoBehaviour
                 break;
 
             case "money":
-               
                 moneyUpgrade?.Invoke();
                 break;
         }

@@ -60,6 +60,8 @@ MonoBehaviour:
   GardenBedIsReady: 0
   check: 0
   ScytheIco: {fileID: 21300000, guid: 4644284fe23d8a044acc3de2ebd86972, type: 3}
+  reloadTime: 0
+  reloading: 0
 --- !u!65 &8997222306315623521
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -88,31 +90,64 @@ MonoBehaviour:
   FieldsEnable:
     Version: 2
     PathsEnabled: []
-    ModificationVersion: 1
+    ModificationVersion: 4
     ComponentsEnabled: []
     HashFieldsEnabled: []
     ObjectsEnabled: 
     HashSetFieldsEnabled:
-      m_buckets: 
-      m_slots: []
+      m_buckets: 000000000000000000000000
+      m_slots:
+      - hashCode: 0
+        next: 0
+        value:
+          HashCodePath: 0
+          HashCodeMember: 0
+      - hashCode: 0
+        next: 0
+        value:
+          HashCodePath: 0
+          HashCodeMember: 0
+      - hashCode: 0
+        next: 0
+        value:
+          HashCodePath: 0
+          HashCodeMember: 0
       m_count: 0
       m_lastIndex: 0
       m_freeList: -1
-      m_version: 1
+      m_version: 5
     HashSetObjectsEnabled:
-      m_buckets: 
-      m_slots: []
+      m_buckets: 000000000000000000000000
+      m_slots:
+      - hashCode: 0
+        next: 0
+        value: 0
+      - hashCode: 0
+        next: 0
+        value: 0
+      - hashCode: 0
+        next: 0
+        value: 0
       m_count: 0
       m_lastIndex: 0
       m_freeList: -1
-      m_version: 1
+      m_version: 5
     HashSetComponentsEnabled:
-      m_buckets: 
-      m_slots: []
+      m_buckets: 000000000000000000000000
+      m_slots:
+      - hashCode: 0
+        next: 0
+        value: 
+      - hashCode: 0
+        next: 0
+        value: 
+      - hashCode: 0
+        next: 0
+        value: 
       m_count: 0
       m_lastIndex: 0
       m_freeList: -1
-      m_version: 1
+      m_version: 5
     AreValidSavedHashs: 1
   Position: 0
   Rotation: 0
