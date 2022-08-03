@@ -18,13 +18,14 @@ public class newPlace : MonoBehaviour
     public GameObject walls;
     public GameObject canvas;
     public bool firstPlace;
+    bool onetime;
 
     // Start is called before the first frame update
     void Awake()
     {
         waitInCicle = maxWaitInCicle;
         text = canvas.GetComponentInChildren<TextMeshProUGUI>();
-       PlayerPrefs.SetFloat("money", 1000);
+       //PlayerPrefs.SetFloat("money", 1000);
         waitingIco = FindObjectOfType<canvasManager>().waitingIco;
         text.text = price.ToString();
         land = transform.GetChild(1);
@@ -38,14 +39,15 @@ public class newPlace : MonoBehaviour
         if (price != 0)
         {
             text.text = price.ToString();
-            if (!firstPlace)
+            if (!firstPlace & !onetime)
             {
                 land.gameObject.SetActive(false);
                 canvas.gameObject.SetActive(false);
                 if(name == "new place (3)")
                 {
-                    Debug.Log(name);
+                    //Debug.Log(name);
                 }
+                onetime = true;
             }
         }
         else
@@ -65,7 +67,7 @@ public class newPlace : MonoBehaviour
     public void Activate()
     {
         canvas.gameObject.SetActive(true);
-        open = false;
+        //open = false;
     }
     // Update is called once per frame
     void Update()
