@@ -14,7 +14,7 @@ public class waitingIco : MonoBehaviour
     public GameObject coin;
     private RectTransform JumpCoin;
     private float JumpTime;
-
+    bool stop;
 
     private void Awake()
     {
@@ -34,7 +34,7 @@ public class waitingIco : MonoBehaviour
     {
         image.fillAmount = 0;
         JumpCoin.position = transform.position;
-        time = Mathf.Clamp(timer, 0.03f, 10f);
+        time = timer;
         StartCoroutine(DoMove());
     }
 
@@ -69,10 +69,12 @@ public class waitingIco : MonoBehaviour
 
     private IEnumerator StartJump()
     {
+        
         Vector3 targetPosition = new Vector3(JumpCoin.position.x, JumpCoin.position.y + 100, JumpCoin.position.z);
         Vector3 startPosition = rectTransform.position;
         float startTime = Time.realtimeSinceStartup;
         float fraction = 0f;
+        JumpCoin.position = startPosition;
         while (fraction < 1f)
         {
             fraction = Mathf.Clamp01((Time.realtimeSinceStartup - startTime) / JumpTime);
