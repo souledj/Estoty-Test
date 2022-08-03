@@ -77,6 +77,7 @@ public class waterTower : MonoBehaviour
             if (wateringCan.waterVolume == wateringCan.maxWaterVolume)
             {
                 canvas.SetActive(false);
+                canvasManager.waterIco.GetComponent<imageFader>().Off();
                 StopAllCoroutines();
             }
             yield return null;

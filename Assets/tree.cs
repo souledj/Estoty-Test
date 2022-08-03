@@ -21,11 +21,14 @@ public class tree : MonoBehaviour
     public List<Transform> ripesApples;
     private List<Transform> notRipesApples = new List<Transform>();
     bool treeBend;
+    camera_controller cameraController;
+    public GameObject circle;
 
     // Start is called before the first frame update
     void Awake()
     {
-        mainCamera = FindObjectOfType<camera_controller>().transform.GetChild(0);
+        cameraController = FindObjectOfType<camera_controller>();
+        mainCamera =cameraController.transform.GetChild(0);
         player = FindObjectOfType<Player>();
         canvasManager = FindObjectOfType<canvasManager>();
     }
@@ -33,32 +36,40 @@ public class tree : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(ripesApples.Count>0)
+        {
+            circle.SetActive(true);
+        }
+        else
+        {
+            circle.SetActive(false);
+        }
+
        if(playerIn)
         {
             bool PlayerReady;
-           
-            if (Vector3.Distance(player.transform.position, playerPivot.position) < 0.3f)
+           // Debug.Log(Vector3.Distance(player.transform.position, playerPivot.position));
+            if (Vector3.Distance(player.transform.position, playerPivot.position) < 0.1f)
             {
                 PlayerReady = true;
-                player.transform.forward = Vector3.MoveTowards(player.transform.forward, playerPivot.forward, Time.deltaTime * 5);
-                if(player.transform.forward == playerPivot.forward)
-                {
-                    player.animator.SetFloat("Blend", 0);
-                    player.animator.SetLayerWeight(0, Mathf.MoveTowards(player.animator.GetLayerWeight(0),0, Time.deltaTime * 3));
-                    player.animator.SetLayerWeight(1, Mathf.MoveTowards(player.animator.GetLayerWeight(1), 1, Time.deltaTime * 3));
-                }
+                //player.transform.forward = Vector3.MoveTowards(player.transform.forward, playerPivot.forward, Time.deltaTime * 5);
+                player.animator.SetFloat("Blend", 0);
+                player.animator.SetLayerWeight(0, Mathf.MoveTowards(player.animator.GetLayerWeight(0), 0, Time.deltaTime * 3));
+                player.animator.SetLayerWeight(1, Mathf.MoveTowards(player.animator.GetLayerWeight(1), 1, Time.deltaTime * 3));
                 
             }
             else
             {
                 Vector3 vector = playerPivot.position - player.transform.position;
-                player.characterController.SimpleMove(vector.normalized * player.MoveSpeed * 0.5f);
-                player.transform.rotation = Quaternion.Slerp(player.transform.rotation, Quaternion.LookRotation(playerPivot.position - player.transform.position, Vector3.up), Time.deltaTime * 1);
+               // player.characterController.SimpleMove(vector.normalized * player.MoveSpeed * 0.5f);
+                player.transform.position = Vector3.MoveTowards(player.transform.position, playerPivot.position, Time.deltaTime * 3);
+                // player.transform.rotation = Quaternion.Slerp(player.transform.rotation, Quaternion.LookRotation(playerPivot.position - player.transform.position, Vector3.up), Time.deltaTime * 1);
+                
                 player.animator.SetFloat("Blend", vector.magnitude * 0.5f, 0.05f, Time.deltaTime);
                 PlayerReady = false;
             }
-
-            if(PlayerReady)
+            player.transform.rotation = Quaternion.Slerp(player.transform.rotation, playerPivot.rotation, Time.deltaTime * 3);
+            if (PlayerReady)
             {
               
                 float X;
@@ -74,7 +85,6 @@ public class tree : MonoBehaviour
                     {
                         player.animator.SetTrigger("shake");
                         leaves.Emit(Random.Range(10, 15));
-
                         shake = true;
                         shakeback = false;
                         AppleFall();
@@ -82,6 +92,7 @@ public class tree : MonoBehaviour
                     }
                     if(X<0 & !shakeback)
                     {
+                        
                         player.animator.SetTrigger("shake back");
                         leaves.Emit(Random.Range(10, 15));
                         shake = false;
@@ -115,16 +126,24 @@ public class tree : MonoBehaviour
         }
         else
         {
+            StartCoroutine(ShakeCam(0.1f));
             var apple = ripesApples[Random.RandomRange(0, ripesApples.Count - 1)];
             apple.GetChild(0).localPosition = Vector3.zero;
             apple.GetComponent<apple>().fetus.enabled = true;
             apple.GetChild(0).GetComponent<Rigidbody>().isKinematic = false;
             notRipesApples.Add(apple);
             ripesApples.Remove(apple);
-        }
-       
+        }       
         
     }
+
+    public IEnumerator ShakeCam(float y)
+    {
+        camera.position = new Vector3(camera.position.x, camera.position.y + y, camera.position.z);
+        yield return new WaitForSeconds(0.1f);
+        camera.position = cameraPivot.position;
+    }
+
     public IEnumerator Out()
     {
         playerIn = false;

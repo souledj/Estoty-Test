@@ -26,7 +26,7 @@ public class counterPsitioner : MonoBehaviour
         float amount;
         if (name == "money")
         {
-            amount = PlayerPrefs.GetFloat(TargetPref);
+            amount = Mathf.Round(PlayerPrefs.GetFloat(TargetPref));
         }
         else
         {

@@ -28,7 +28,7 @@ public class fetus : MonoBehaviour
         
         if (ready)
         {
-            Vector3 target = player.transform.position;//mainCamera.ScreenToWorldPoint(new Vector3(TargetCounter.position.x, TargetCounter.position.y,- mainCamera.transform.position.z));            
+            Vector3 target = new Vector3(player.transform.position.x, player.transform.position.y+1, player.transform.position.z);//mainCamera.ScreenToWorldPoint(new Vector3(TargetCounter.position.x, TargetCounter.position.y,- mainCamera.transform.position.z));            
             transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * 10f);                     
             if (Vector3.Distance(transform.position, target) < 0.01f)
             {

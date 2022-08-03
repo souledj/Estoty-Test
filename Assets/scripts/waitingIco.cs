@@ -34,7 +34,7 @@ public class waitingIco : MonoBehaviour
     {
         image.fillAmount = 0;
         JumpCoin.position = transform.position;
-        time = timer;
+        time = Mathf.Clamp(timer, 0.03f, 10f);
         StartCoroutine(DoMove());
     }
 

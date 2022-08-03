@@ -9,7 +9,7 @@ public class countes : MonoBehaviour
     public RectTransform tomato;
     public RectTransform milk;
     public RectTransform onion;
-
+    public RectTransform apple;
 
 
     // Start is called before the first frame update
@@ -39,6 +39,10 @@ public class countes : MonoBehaviour
 
             case "onion":
                 toReturn = onion;
+                break;
+
+            case "apple":
+                toReturn = apple;
                 break;
 
         }

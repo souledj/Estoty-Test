@@ -18,6 +18,7 @@ public class apple : MonoBehaviour
         fetus.GetComponent<Rigidbody>().isKinematic = true;
         fetus.parent = transform;
         fetus.enabled = false;
+        maxSpeed *= Random.Range(1f, 3f);
         speed = maxSpeed;
        
     }

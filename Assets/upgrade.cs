@@ -26,7 +26,7 @@ public class upgrade : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         Pref = name;
-        PlayerPrefs.SetFloat("money", 1000);
+       // PlayerPrefs.SetFloat("money", 1000);
 
         if (!PlayerPrefs.HasKey(Pref + " price"))
         {
@@ -42,6 +42,7 @@ public class upgrade : MonoBehaviour
     {
         CheckButton();
     }
+
 
     private void CheckButton()
     {
@@ -96,6 +97,9 @@ public class upgrade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(transform.parent.parent.localScale != Vector3.zero)
+        {
+            CheckButton();
+        }
     }
 }

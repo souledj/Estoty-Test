@@ -55,8 +55,8 @@ public class coin : MonoBehaviour
         if(go)
         {
             //mainCamera.ScreenToWorldPoint(new Vector3(coinsCounter.position.x, coinsCounter.position.y, -mainCamera.transform.position.z));
-            Vector3 target = new Vector3( player.transform.position.x, player.transform.position.y +1, player.transform.position.z); 
-            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * speed*Random.Range(0.5f,1));
+            Vector3 target = new Vector3( player.transform.position.x, player.transform.position.y +2, player.transform.position.z); 
+            transform.position = Vector3.MoveTowards(transform.position, target, Time.deltaTime * speed*Random.Range(1f,1.5f));
             if(Vector3.Distance(transform.position, target) < 1)
             {
                 transform.position = transform.parent.position;

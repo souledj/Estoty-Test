@@ -42,7 +42,7 @@ public class animalFidder : MonoBehaviour
         OfferToText = OfferToIco.transform.GetComponentInChildren<TextMeshProUGUI>();
         OfferFromText.text = OfferFrom.ToString();
         OfferToText.text = OfferTo.ToString();
-        PlayerPrefs.SetInt(cultureName, 120);
+       // PlayerPrefs.SetInt(cultureName, 120);
         for (int i = 0; i < OfferTo; i++)
         {
             var item = Instantiate(PrefabTo, produscts.position, Quaternion.identity, produscts);
@@ -142,7 +142,7 @@ public class animalFidder : MonoBehaviour
             if(!FeedNow)
             {
                 int PlayerHave = PlayerPrefs.GetInt(cultureName);
-                if (PlayerHave > OfferFrom)
+                if (PlayerHave >= OfferFrom)
                 {
                     player.stop = true;
                     feedUp = true;
