@@ -11,6 +11,8 @@ public class counterPsitioner : MonoBehaviour
     private RectTransform rectTransform;
     public float open;
     public float close;
+    public bool right;
+    private float offset;
 
     // Start is called before the first frame update
     void Awake()
@@ -23,6 +25,7 @@ public class counterPsitioner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        offset = text.GetComponent<RectTransform>().rect.width*3;
         float amount;
         if (name == "money")
         {
@@ -38,12 +41,20 @@ public class counterPsitioner : MonoBehaviour
 
         if (amount > 0)
         {
-           target = new Vector3(open, rectTransform.localPosition.y, rectTransform.localPosition.z);
+           target = new Vector3(0, rectTransform.position.y, rectTransform.position.z);
         }
         else
-        {            
-            target = new Vector3(close, rectTransform.localPosition.y, rectTransform.localPosition.z);
+        {     
+            if(right)
+            {
+                target = new Vector3(Screen.width + offset, rectTransform.position.y, rectTransform.position.z);
+            }
+            else
+            {
+                target = new Vector3(-offset, rectTransform.position.y, rectTransform.position.z);
+            }
+            
         }
-       rectTransform.localPosition = Vector3.MoveTowards(transform.localPosition, target, Time.deltaTime * 200);
+       rectTransform.position = Vector3.MoveTowards(rectTransform.position, target, Time.deltaTime * 200);
     }
 }
